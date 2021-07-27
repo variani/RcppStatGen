@@ -66,21 +66,19 @@ matrix(c(NA, 2:9), 3, 3) %>% eigen_scale
 
 ``` r
 library(bench)
-library(ggplot2)
 
 fun_bench <- function(n = 1e4, p = 1e3, times = 3)
 {
   X <- matrix(rnorm(n*p), n, p)
-  mark(scale(X), eigen_scale_naive(X), eigen_scale(X), check = FALSE, relative = TRUE)
+  bench::mark(scale(X), eigen_scale_naive(X), eigen_scale(X), check = FALSE, relative = TRUE)
 }
 
-(b <- fun_bench())
+fun_bench()
 #> Warning: Some expressions had a GC in every iteration; so filtering is disabled.
 #> # A tibble: 3 x 6
 #>   expression             min median `itr/sec` mem_alloc `gc/sec`
 #>   <bch:expr>           <dbl>  <dbl>     <dbl>     <dbl>    <dbl>
-#> 1 scale(X)              6.22   4.96      1         10.5     2.18
-#> 2 eigen_scale_naive(X)  1      1         5.18       1       1.13
-#> 3 eigen_scale(X)        1.24   1.08      4.60       1       1
-# autoplot(b)
+#> 1 scale(X)              6.42   6.37      1         10.5     2.41
+#> 2 eigen_scale_naive(X)  1      1         6.27       1       1.01
+#> 3 eigen_scale(X)        1.26   1.28      4.97       1       1
 ```
