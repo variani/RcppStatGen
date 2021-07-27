@@ -18,7 +18,7 @@ knitr::opts_chunk$set(
 <!-- badges: start -->
 <!-- badges: end -->
 
-RcppStatGen is an R/RcppEigen package with code snipets for Statistical Genetics tasks.
+RcppStatGen is an R/RcppEigen package with code snippets for Statistical Genetics tasks.
 
 
 ## Installation
@@ -53,12 +53,12 @@ matrix(c(NA, 2:9), 3, 3) %>% eigen_scale_naive
 matrix(c(NA, 2:9), 3, 3) %>% eigen_scale
 ```
 
-# Benchmakrs
+# Benchmarks
 
 ```{r bench_scale}
 library(bench)
 
-fun_bench <- function(n = 1e4, p = 1e3, times = 3)
+fun_bench <- function(n = 1e4, p = 1e3)
 {
   X <- matrix(rnorm(n*p), n, p)
   bench::mark(scale(X), eigen_scale_naive(X), eigen_scale(X), check = FALSE, relative = TRUE)

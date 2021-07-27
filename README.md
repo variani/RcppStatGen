@@ -7,7 +7,7 @@
 
 <!-- badges: end -->
 
-RcppStatGen is an R/RcppEigen package with code snipets for Statistical
+RcppStatGen is an R/RcppEigen package with code snippets for Statistical
 Genetics tasks.
 
 ## Installation
@@ -62,12 +62,12 @@ matrix(c(NA, 2:9), 3, 3) %>% eigen_scale
 #> [3,]  0.7071068    1    1
 ```
 
-# Benchmakrs
+# Benchmarks
 
 ``` r
 library(bench)
 
-fun_bench <- function(n = 1e4, p = 1e3, times = 3)
+fun_bench <- function(n = 1e4, p = 1e3)
 {
   X <- matrix(rnorm(n*p), n, p)
   bench::mark(scale(X), eigen_scale_naive(X), eigen_scale(X), check = FALSE, relative = TRUE)
@@ -78,7 +78,7 @@ fun_bench()
 #> # A tibble: 3 x 6
 #>   expression             min median `itr/sec` mem_alloc `gc/sec`
 #>   <bch:expr>           <dbl>  <dbl>     <dbl>     <dbl>    <dbl>
-#> 1 scale(X)              6.42   6.37      1         10.5     2.41
-#> 2 eigen_scale_naive(X)  1      1         6.27       1       1.01
-#> 3 eigen_scale(X)        1.26   1.28      4.97       1       1
+#> 1 scale(X)              6.32   5.98      1         10.5     2.48
+#> 2 eigen_scale_naive(X)  1      1         6.04       1       1   
+#> 3 eigen_scale(X)        1.26   1.22      4.90       1       1.01
 ```
