@@ -1,0 +1,73 @@
+---
+output: github_document
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  out.width = "100%"
+)
+```
+
+# RcppStatGen
+
+<!-- badges: start -->
+<!-- badges: end -->
+
+RcppStatGen is an R/RcppEigen package with code snipets for Statistical Genetics tasks.
+
+
+## Installation
+
+You can install the development version from [GitHub](https://github.com/) with:
+
+``` r
+# install.packages("devtools")
+devtools::install_github("variani/RcppStatGen")
+```
+
+## Example
+
+```{r lib}
+library(RcppStatGen)
+library(magrittr) # for %>%
+
+eigen_version()
+```
+
+Basic example of scaling a numeric matrix.
+
+```{r scale}
+iris[, -5]  %>% head %>% as.matrix %>% eigen_scale
+```
+
+Example of scaling a matrix with missing data.
+
+```{r scale_missing}
+matrix(1:9, 3, 3) %>% eigen_scale_naive
+matrix(c(NA, 2:9), 3, 3) %>% eigen_scale_naive
+matrix(c(NA, 2:9), 3, 3) %>% eigen_scale
+```
+
+# Benchmakrs
+
+```{r bench_scale}
+library(bench)
+library(ggplot2)
+
+fun_bench <- function(n = 1e4, p = 1e3, times = 3)
+{
+  X <- matrix(rnorm(n*p), n, p)
+  mark(scale(X), eigen_scale_naive(X), eigen_scale(X), check = FALSE, relative = TRUE)
+}
+
+(b <- fun_bench())
+# autoplot(b)
+```
+
+
+

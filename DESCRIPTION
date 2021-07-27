@@ -1,0 +1,20 @@
+Package: RcppStatGen
+Title: Rcpp code for Statistical Genetics
+Version: 0.1
+Authors@R: 
+    person(given = "Andrey",
+           family = "Ziyatdinov",
+           role = c("aut", "cre"),
+           email = "first.last@example.com",
+           comment = c(ORCID = "YOUR-ORCID-ID"))
+Description: Code snipets for Statisitcal Genetics problems.
+License: MIT + file LICENSE
+Encoding: UTF-8
+LazyData: true
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.1.1
+LinkingTo: 
+    Rcpp,
+    RcppEigen
+Imports: 
+    Rcpp
