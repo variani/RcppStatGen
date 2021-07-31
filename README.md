@@ -82,9 +82,9 @@ fun_bench()
 #> # A tibble: 3 x 6
 #>   expression             min median `itr/sec` mem_alloc `gc/sec`
 #>   <bch:expr>           <dbl>  <dbl>     <dbl>     <dbl>    <dbl>
-#> 1 scale(X)              3.98   3.93      1         10.5     5.34
-#> 2 eigen_scale_naive(X)  1      1         3.90       1       1.16
-#> 3 eigen_scale(X)        1.16   1.17      3.37       1       1
+#> 1 scale(X)              6.45   6.44      1         10.5     2.40
+#> 2 eigen_scale_naive(X)  1      1         6.29       1       1.01
+#> 3 eigen_scale(X)        1.26   1.29      5.00       1       1
 ```
 
 ## Scale matrix in-place
@@ -99,12 +99,10 @@ fun_bench_inplace<- function(n = 1e4, p = 1e3)
   X <- matrix(rnorm(n*p), n, p)
   bench::mark(eigen_scale(X), eigen_scale_inplace(X), check = FALSE)
 }
-fun_bench()
-#> Warning: Some expressions had a GC in every iteration; so filtering is disabled.
-#> # A tibble: 3 x 6
-#>   expression             min median `itr/sec` mem_alloc `gc/sec`
-#>   <bch:expr>           <dbl>  <dbl>     <dbl>     <dbl>    <dbl>
-#> 1 scale(X)              3.91   3.89      1         10.5     5.39
-#> 2 eigen_scale_naive(X)  1      1         3.71       1       1   
-#> 3 eigen_scale(X)        1.06   1.18      3.40       1       1.22
+fun_bench_inplace()
+#> # A tibble: 2 x 6
+#>   expression                  min   median `itr/sec` mem_alloc `gc/sec`
+#>   <bch:expr>             <bch:tm> <bch:tm>     <dbl> <bch:byt>    <dbl>
+#> 1 eigen_scale(X)          212.7ms  212.7ms      4.70    76.3MB     9.40
+#> 2 eigen_scale_inplace(X)   64.4ms   64.6ms     15.5     5.02KB     0
 ```

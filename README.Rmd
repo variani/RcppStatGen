@@ -82,7 +82,7 @@ fun_bench_inplace<- function(n = 1e4, p = 1e3)
   X <- matrix(rnorm(n*p), n, p)
   bench::mark(eigen_scale(X), eigen_scale_inplace(X), check = FALSE)
 }
-fun_bench()
+fun_bench_inplace()
 ```
 
 

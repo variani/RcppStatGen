@@ -11,6 +11,7 @@ eigen_scale <- function(X0, verbose = 0L) {
     .Call(`_RcppStatGen_eigen_scale`, X0, verbose)
 }
 
+#' @export
 eigen_scale_inplace <- function(X) {
     invisible(.Call(`_RcppStatGen_eigen_scale_inplace`, X))
 }

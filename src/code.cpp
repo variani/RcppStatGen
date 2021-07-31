@@ -74,6 +74,7 @@ Eigen::MatrixXd eigen_scale(const Eigen::MatrixXd &X0, int verbose = 0)
 // Scale function with in-place modyfication
 //-------------------------------------------
 
+//' @export
 // [[Rcpp::export]]
 void eigen_scale_inplace(Eigen::Map<Eigen::MatrixXd> X) 
 {

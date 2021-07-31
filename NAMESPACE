@@ -2,6 +2,7 @@
 
 export(eigen_print_sum)
 export(eigen_scale)
+export(eigen_scale_inplace)
 export(eigen_scale_naive)
 export(eigen_scale_template)
 export(eigen_version)
