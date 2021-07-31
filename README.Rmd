@@ -76,6 +76,9 @@ fun_bench()
 Scaling matrix in-place requires almost no extra RAM (just needed to store means/sds for each column).
 Thus, the memory footprint is reduced by a factor of n = 1e4 (the number of rows).
 
+This exercise was motivated by this [SO](https://stackoverflow.com/questions/27935124/is-it-okay-to-modify-a-mapped-matrix-in-rcppeigen) question.
+In general, one expects from scaling function to take one input matrix of raw data (to keep untouched) and create another new matrix of per-column scaled data.
+
 ```{r bench_scale_inplace}
 fun_bench_inplace<- function(n = 1e4, p = 1e3)
 {

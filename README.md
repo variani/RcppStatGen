@@ -82,9 +82,9 @@ fun_bench()
 #> # A tibble: 3 x 6
 #>   expression             min median `itr/sec` mem_alloc `gc/sec`
 #>   <bch:expr>           <dbl>  <dbl>     <dbl>     <dbl>    <dbl>
-#> 1 scale(X)              6.45   6.43      1         10.5     2.41
-#> 2 eigen_scale_naive(X)  1      1         6.29       1       1.01
-#> 3 eigen_scale(X)        1.26   1.29      4.99       1       1
+#> 1 scale(X)              3.99   3.99      1         10.5     5.29
+#> 2 eigen_scale_naive(X)  1      1         3.95       1       1.16
+#> 3 eigen_scale(X)        1.15   1.18      3.40       1       1
 ```
 
 ## Scale matrix in-place
@@ -93,6 +93,12 @@ Scaling matrix in-place requires almost no extra RAM (just needed to
 store means/sds for each column). Thus, the memory footprint is reduced
 by a factor of n = 1e4 (the number of rows).
 
+This exercise was motivated by this
+[SO](https://stackoverflow.com/questions/27935124/is-it-okay-to-modify-a-mapped-matrix-in-rcppeigen)
+question. In general, one expects from scaling function to take one
+input matrix of raw data (to keep untouched) and create another new
+matrix of per-column scaled data.
+
 ``` r
 fun_bench_inplace<- function(n = 1e4, p = 1e3)
 {
@@ -100,11 +106,12 @@ fun_bench_inplace<- function(n = 1e4, p = 1e3)
   bench::mark(eigen_scale(X), eigen_scale_inplace(X), check = FALSE)
 }
 fun_bench_inplace()
+#> Warning: Some expressions had a GC in every iteration; so filtering is disabled.
 #> # A tibble: 2 x 6
 #>   expression                  min   median `itr/sec` mem_alloc `gc/sec`
 #>   <bch:expr>             <bch:tm> <bch:tm>     <dbl> <bch:byt>    <dbl>
-#> 1 eigen_scale(X)          211.3ms  211.3ms      4.73    76.3MB     9.47
-#> 2 eigen_scale_inplace(X)   63.2ms   63.3ms     15.8     5.02KB     0
+#> 1 eigen_scale(X)            227ms    254ms      3.94    76.3MB     3.94
+#> 2 eigen_scale_inplace(X)   63.2ms   63.6ms     15.7     5.02KB     0
 ```
 
 The extra RAM used by `eigen_scale` function (compared to
