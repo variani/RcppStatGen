@@ -82,9 +82,9 @@ fun_bench()
 #> # A tibble: 3 x 6
 #>   expression             min median `itr/sec` mem_alloc `gc/sec`
 #>   <bch:expr>           <dbl>  <dbl>     <dbl>     <dbl>    <dbl>
-#> 1 scale(X)              6.45   6.44      1         10.5     2.40
+#> 1 scale(X)              6.45   6.43      1         10.5     2.41
 #> 2 eigen_scale_naive(X)  1      1         6.29       1       1.01
-#> 3 eigen_scale(X)        1.26   1.29      5.00       1       1
+#> 3 eigen_scale(X)        1.26   1.29      4.99       1       1
 ```
 
 ## Scale matrix in-place
@@ -103,6 +103,18 @@ fun_bench_inplace()
 #> # A tibble: 2 x 6
 #>   expression                  min   median `itr/sec` mem_alloc `gc/sec`
 #>   <bch:expr>             <bch:tm> <bch:tm>     <dbl> <bch:byt>    <dbl>
-#> 1 eigen_scale(X)          212.7ms  212.7ms      4.70    76.3MB     9.40
-#> 2 eigen_scale_inplace(X)   64.4ms   64.6ms     15.5     5.02KB     0
+#> 1 eigen_scale(X)          211.3ms  211.3ms      4.73    76.3MB     9.47
+#> 2 eigen_scale_inplace(X)   63.2ms   63.3ms     15.8     5.02KB     0
+```
+
+The extra RAM used by `eigen_scale` function (compared to
+`eigen_scale_inplace`) is equal to the size of matrix `X` (76Mb).
+
+``` r
+n <- 1e4
+p <- 1e3
+X <- matrix(rnorm(n*p), n, p)
+object.size(X) %>% print(units = "auto")
+#> 76.3 Mb
+rm(X)
 ```

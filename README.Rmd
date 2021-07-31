@@ -85,5 +85,16 @@ fun_bench_inplace<- function(n = 1e4, p = 1e3)
 fun_bench_inplace()
 ```
 
+The extra RAM used by `eigen_scale` function (compared to `eigen_scale_inplace`)
+is equal to the size of matrix `X` (76Mb).
+
+```{r size_X}
+n <- 1e4
+p <- 1e3
+X <- matrix(rnorm(n*p), n, p)
+object.size(X) %>% print(units = "auto")
+rm(X)
+```
+
 
 
