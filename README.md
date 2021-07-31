@@ -20,7 +20,7 @@ You can install the development version from
 devtools::install_github("variani/RcppStatGen")
 ```
 
-## Example
+# Examples
 
 ``` r
 library(RcppStatGen)
@@ -64,6 +64,11 @@ matrix(c(NA, 2:9), 3, 3) %>% eigen_scale
 
 # Benchmarks
 
+## Scale matrix
+
+The standard R function `scale` requires ~10x more RAM than its Eigen
+implementations. Eigen implementations are also several times faster.
+
 ``` r
 library(bench)
 
@@ -72,13 +77,34 @@ fun_bench <- function(n = 1e4, p = 1e3)
   X <- matrix(rnorm(n*p), n, p)
   bench::mark(scale(X), eigen_scale_naive(X), eigen_scale(X), check = FALSE, relative = TRUE)
 }
-
 fun_bench()
 #> Warning: Some expressions had a GC in every iteration; so filtering is disabled.
 #> # A tibble: 3 x 6
 #>   expression             min median `itr/sec` mem_alloc `gc/sec`
 #>   <bch:expr>           <dbl>  <dbl>     <dbl>     <dbl>    <dbl>
-#> 1 scale(X)              6.32   5.98      1         10.5     2.48
-#> 2 eigen_scale_naive(X)  1      1         6.04       1       1   
-#> 3 eigen_scale(X)        1.26   1.22      4.90       1       1.01
+#> 1 scale(X)              3.98   3.93      1         10.5     5.34
+#> 2 eigen_scale_naive(X)  1      1         3.90       1       1.16
+#> 3 eigen_scale(X)        1.16   1.17      3.37       1       1
+```
+
+## Scale matrix in-place
+
+Scaling matrix in-place requires almost no extra RAM (just needed to
+store means/sds for each column). Thus, the memory footprint is reduced
+by a factor of n = 1e4 (the number of rows).
+
+``` r
+fun_bench_inplace<- function(n = 1e4, p = 1e3)
+{
+  X <- matrix(rnorm(n*p), n, p)
+  bench::mark(eigen_scale(X), eigen_scale_inplace(X), check = FALSE)
+}
+fun_bench()
+#> Warning: Some expressions had a GC in every iteration; so filtering is disabled.
+#> # A tibble: 3 x 6
+#>   expression             min median `itr/sec` mem_alloc `gc/sec`
+#>   <bch:expr>           <dbl>  <dbl>     <dbl>     <dbl>    <dbl>
+#> 1 scale(X)              3.91   3.89      1         10.5     5.39
+#> 2 eigen_scale_naive(X)  1      1         3.71       1       1   
+#> 3 eigen_scale(X)        1.06   1.18      3.40       1       1.22
 ```

@@ -11,8 +11,22 @@ eigen_scale <- function(X0, verbose = 0L) {
     .Call(`_RcppStatGen_eigen_scale`, X0, verbose)
 }
 
+eigen_scale_inplace <- function(X) {
+    invisible(.Call(`_RcppStatGen_eigen_scale_inplace`, X))
+}
+
 #' @export
 eigen_scale_naive <- function(X0) {
     .Call(`_RcppStatGen_eigen_scale_naive`, X0)
+}
+
+#' @export
+eigen_scale_template <- function(X, verbose = 0L) {
+    .Call(`_RcppStatGen_eigen_scale_template`, X, verbose)
+}
+
+#' @export
+eigen_print_sum <- function(X) {
+    invisible(.Call(`_RcppStatGen_eigen_print_sum`, X))
 }
 

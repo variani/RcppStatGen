@@ -30,7 +30,7 @@ You can install the development version from [GitHub](https://github.com/) with:
 devtools::install_github("variani/RcppStatGen")
 ```
 
-## Example
+# Examples
 
 ```{r lib}
 library(RcppStatGen)
@@ -55,6 +55,11 @@ matrix(c(NA, 2:9), 3, 3) %>% eigen_scale
 
 # Benchmarks
 
+## Scale matrix
+
+The standard R function `scale` requires ~10x more RAM than its Eigen implementations.
+Eigen implementations are also several times faster.
+
 ```{r bench_scale}
 library(bench)
 
@@ -63,7 +68,20 @@ fun_bench <- function(n = 1e4, p = 1e3)
   X <- matrix(rnorm(n*p), n, p)
   bench::mark(scale(X), eigen_scale_naive(X), eigen_scale(X), check = FALSE, relative = TRUE)
 }
+fun_bench()
+```
 
+## Scale matrix in-place
+
+Scaling matrix in-place requires almost no extra RAM (just needed to store means/sds for each column).
+Thus, the memory footprint is reduced by a factor of n = 1e4 (the number of rows).
+
+```{r bench_scale_inplace}
+fun_bench_inplace<- function(n = 1e4, p = 1e3)
+{
+  X <- matrix(rnorm(n*p), n, p)
+  bench::mark(eigen_scale(X), eigen_scale_inplace(X), check = FALSE)
+}
 fun_bench()
 ```
 

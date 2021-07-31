@@ -21,33 +21,68 @@ BEGIN_RCPP
 END_RCPP
 }
 // eigen_scale
-Eigen::MatrixXd eigen_scale(Eigen::MatrixXd X0, int verbose);
+Eigen::MatrixXd eigen_scale(const Eigen::MatrixXd& X0, int verbose);
 RcppExport SEXP _RcppStatGen_eigen_scale(SEXP X0SEXP, SEXP verboseSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< Eigen::MatrixXd >::type X0(X0SEXP);
+    Rcpp::traits::input_parameter< const Eigen::MatrixXd& >::type X0(X0SEXP);
     Rcpp::traits::input_parameter< int >::type verbose(verboseSEXP);
     rcpp_result_gen = Rcpp::wrap(eigen_scale(X0, verbose));
     return rcpp_result_gen;
 END_RCPP
 }
+// eigen_scale_inplace
+void eigen_scale_inplace(Eigen::Map<Eigen::MatrixXd> X);
+RcppExport SEXP _RcppStatGen_eigen_scale_inplace(SEXP XSEXP) {
+BEGIN_RCPP
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< Eigen::Map<Eigen::MatrixXd> >::type X(XSEXP);
+    eigen_scale_inplace(X);
+    return R_NilValue;
+END_RCPP
+}
 // eigen_scale_naive
-Eigen::MatrixXd eigen_scale_naive(Eigen::MatrixXd X0);
+Eigen::MatrixXd eigen_scale_naive(const Eigen::MatrixXd& X0);
 RcppExport SEXP _RcppStatGen_eigen_scale_naive(SEXP X0SEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< Eigen::MatrixXd >::type X0(X0SEXP);
+    Rcpp::traits::input_parameter< const Eigen::MatrixXd& >::type X0(X0SEXP);
     rcpp_result_gen = Rcpp::wrap(eigen_scale_naive(X0));
     return rcpp_result_gen;
+END_RCPP
+}
+// eigen_scale_template
+Eigen::MatrixXd eigen_scale_template(SEXP X, int verbose);
+RcppExport SEXP _RcppStatGen_eigen_scale_template(SEXP XSEXP, SEXP verboseSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type X(XSEXP);
+    Rcpp::traits::input_parameter< int >::type verbose(verboseSEXP);
+    rcpp_result_gen = Rcpp::wrap(eigen_scale_template(X, verbose));
+    return rcpp_result_gen;
+END_RCPP
+}
+// eigen_print_sum
+void eigen_print_sum(SEXP X);
+RcppExport SEXP _RcppStatGen_eigen_print_sum(SEXP XSEXP) {
+BEGIN_RCPP
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type X(XSEXP);
+    eigen_print_sum(X);
+    return R_NilValue;
 END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
     {"_RcppStatGen_eigen_version", (DL_FUNC) &_RcppStatGen_eigen_version, 0},
     {"_RcppStatGen_eigen_scale", (DL_FUNC) &_RcppStatGen_eigen_scale, 2},
+    {"_RcppStatGen_eigen_scale_inplace", (DL_FUNC) &_RcppStatGen_eigen_scale_inplace, 1},
     {"_RcppStatGen_eigen_scale_naive", (DL_FUNC) &_RcppStatGen_eigen_scale_naive, 1},
+    {"_RcppStatGen_eigen_scale_template", (DL_FUNC) &_RcppStatGen_eigen_scale_template, 2},
+    {"_RcppStatGen_eigen_print_sum", (DL_FUNC) &_RcppStatGen_eigen_print_sum, 1},
     {NULL, NULL, 0}
 };
 
