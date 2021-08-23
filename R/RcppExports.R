@@ -27,6 +27,16 @@ eigen_scale_template <- function(X, verbose = 0L) {
 }
 
 #' @export
+eigen_qr_keep <- function(X, tol = 1e-7, verbose = 0L) {
+    .Call(`_RcppStatGen_eigen_qr_keep`, X, tol, verbose)
+}
+
+#' @export
+eigen_qri_keep <- function(X0, cols_selected, tol = 1e-7, verbose = 0L) {
+    .Call(`_RcppStatGen_eigen_qri_keep`, X0, cols_selected, tol, verbose)
+}
+
+#' @export
 eigen_print_sum <- function(X) {
     invisible(.Call(`_RcppStatGen_eigen_print_sum`, X))
 }
