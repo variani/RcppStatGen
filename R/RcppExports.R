@@ -37,6 +37,11 @@ eigen_qri_keep <- function(X0, cols_selected, tol = 1e-7, verbose = 0L) {
 }
 
 #' @export
+eigen_qrp_keep <- function(X, cols_selected, tol = 1e-7, verbose = 0L) {
+    .Call(`_RcppStatGen_eigen_qrp_keep`, X, cols_selected, tol, verbose)
+}
+
+#' @export
 eigen_print_sum <- function(X) {
     invisible(.Call(`_RcppStatGen_eigen_print_sum`, X))
 }

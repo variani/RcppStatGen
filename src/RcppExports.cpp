@@ -92,6 +92,20 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// eigen_qrp_keep
+Eigen::ArrayXi eigen_qrp_keep(const Eigen::MatrixXd& X, Eigen::ArrayXi cols_selected, double tol, int verbose);
+RcppExport SEXP _RcppStatGen_eigen_qrp_keep(SEXP XSEXP, SEXP cols_selectedSEXP, SEXP tolSEXP, SEXP verboseSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const Eigen::MatrixXd& >::type X(XSEXP);
+    Rcpp::traits::input_parameter< Eigen::ArrayXi >::type cols_selected(cols_selectedSEXP);
+    Rcpp::traits::input_parameter< double >::type tol(tolSEXP);
+    Rcpp::traits::input_parameter< int >::type verbose(verboseSEXP);
+    rcpp_result_gen = Rcpp::wrap(eigen_qrp_keep(X, cols_selected, tol, verbose));
+    return rcpp_result_gen;
+END_RCPP
+}
 // eigen_print_sum
 void eigen_print_sum(SEXP X);
 RcppExport SEXP _RcppStatGen_eigen_print_sum(SEXP XSEXP) {
@@ -111,6 +125,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_RcppStatGen_eigen_scale_template", (DL_FUNC) &_RcppStatGen_eigen_scale_template, 2},
     {"_RcppStatGen_eigen_qr_keep", (DL_FUNC) &_RcppStatGen_eigen_qr_keep, 3},
     {"_RcppStatGen_eigen_qri_keep", (DL_FUNC) &_RcppStatGen_eigen_qri_keep, 4},
+    {"_RcppStatGen_eigen_qrp_keep", (DL_FUNC) &_RcppStatGen_eigen_qrp_keep, 4},
     {"_RcppStatGen_eigen_print_sum", (DL_FUNC) &_RcppStatGen_eigen_print_sum, 1},
     {NULL, NULL, 0}
 };
