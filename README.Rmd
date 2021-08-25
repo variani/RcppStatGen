@@ -108,14 +108,31 @@ rm(X)
 
 > Note that the different underlying matrix packages (LAPACK and Eigen) most likely implement a different type of QR algorithm.
 
-Given an example matrix with 16 columns and two columns, 4 and 16, to retained by QR,
-two strategies perform differently.
+An illustration of different sets of columns selected by QR in R _vs._ QR in Eigen:
 
-```{r qr}
+- QR implemented in R respects the column order;
+- QR implemented in Eigen ([QR Module](https://eigen.tuxfamily.org/dox/group__QR__Module.html))
+  doesn't care about the colum order.
+
+```{r qr_sel}
 data(X16)
 dim(X16)
 sel
 unsel
+
+# QR in R
+out <- qr(X16)
+with(out, head(pivot, rank))
+
+# QR in Eigen
+eigen_qr_keep(X16)
+```
+
+Given an example matrix with 16 columns and two columns, 4 and 16, 
+selected to be retained by QR,
+two strategies perform differently.
+
+```{r qr}
 
 # 1. QR with pre-selected columns: re-ordering columns fails
 try(eigen_qri_keep(X16, sel))
@@ -123,7 +140,7 @@ try(eigen_qri_keep(X16, sel))
 # 2. QR with pre-selected columns: projeced seleced columns from X
 eigen_qrp_keep(X16, sel)
 
-# Usual QR 
+# As a reference, usual QR in R
 qr(X16)$rank
 ```
 

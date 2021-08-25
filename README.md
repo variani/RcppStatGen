@@ -82,9 +82,9 @@ fun_bench()
 #> # A tibble: 3 x 6
 #>   expression             min median `itr/sec` mem_alloc `gc/sec`
 #>   <bch:expr>           <dbl>  <dbl>     <dbl>     <dbl>    <dbl>
-#> 1 scale(X)              3.78   3.76      1         10.5     5.57
-#> 2 eigen_scale_naive(X)  1      1         3.73       1       1.15
-#> 3 eigen_scale(X)        1.15   1.17      3.23       1       1
+#> 1 scale(X)              6.44   6.43      1         10.5     2.40
+#> 2 eigen_scale_naive(X)  1      1         6.28       1       1.01
+#> 3 eigen_scale(X)        1.25   1.29      5.00       1       1
 ```
 
 ## Scale matrix in-place
@@ -106,12 +106,11 @@ fun_bench_inplace<- function(n = 1e4, p = 1e3)
   bench::mark(eigen_scale(X), eigen_scale_inplace(X), check = FALSE)
 }
 fun_bench_inplace()
-#> Warning: Some expressions had a GC in every iteration; so filtering is disabled.
 #> # A tibble: 2 x 6
 #>   expression                  min   median `itr/sec` mem_alloc `gc/sec`
 #>   <bch:expr>             <bch:tm> <bch:tm>     <dbl> <bch:byt>    <dbl>
-#> 1 eigen_scale(X)          243.4ms  270.1ms      3.70    76.3MB     3.70
-#> 2 eigen_scale_inplace(X)   65.5ms   65.9ms     15.1     5.02KB     0
+#> 1 eigen_scale(X)          224.4ms  224.4ms      4.46    76.3MB     8.91
+#> 2 eigen_scale_inplace(X)   66.2ms   66.6ms     14.8     5.02KB     0
 ```
 
 The extra RAM used by `eigen_scale` function (compared to
@@ -140,8 +139,15 @@ rm(X)
 > Note that the different underlying matrix packages (LAPACK and Eigen)
 > most likely implement a different type of QR algorithm.
 
-Given an example matrix with 16 columns and two columns, 4 and 16, to
-retained by QR, two strategies perform differently.
+An illustration of different sets of columns selected by QR in R *vs.*
+QR in Eigen:
+
+  - QR implemented in R respects the column order;
+  - QR implemented in Eigen ([QR
+    Module](https://eigen.tuxfamily.org/dox/group__QR__Module.html))
+    doesn’t care about the colum order.
+
+<!-- end list -->
 
 ``` r
 data(X16)
@@ -152,6 +158,21 @@ sel
 unsel
 #>  [1]  1  2  3  5  6  7  8  9 10 11 12 13 14 15
 
+# QR in R
+out <- qr(X16)
+with(out, head(pivot, rank))
+#> [1]  1  3  4  7 15
+
+# QR in Eigen
+eigen_qr_keep(X16)
+#> [1]  3  7  4 15  6
+```
+
+Given an example matrix with 16 columns and two columns, 4 and 16,
+selected to be retained by QR, two strategies perform differently.
+
+``` r
+
 # 1. QR with pre-selected columns: re-ordering columns fails
 try(eigen_qri_keep(X16, sel))
 #> Error in eigen_qri_keep(X16, sel) : 
@@ -161,7 +182,7 @@ try(eigen_qri_keep(X16, sel))
 eigen_qrp_keep(X16, sel)
 #> [1]  3  4  6  7 16
 
-# Usual QR 
+# As a reference, usual QR in R
 qr(X16)$rank
 #> [1] 5
 ```
