@@ -10,15 +10,17 @@ data(X16) # X16, sel, unsel
 
 ## 4. eigen_qrp_keep works on X16
 test_that("eigen_qrp_keep", {
-  expect_equal(eigen_qrp_keep(X2, c(2, ncol(X2))), 4)
-  expect_equal(eigen_qrp_keep(X1, 1:2), 3)
+  expect_true(4 %in% eigen_qrp_keep(X2, c(2, ncol(X2))))
+  expect_true(3 %in% eigen_qrp_keep(X1, 1:2))
 })
 
 ## 3. eigen_qrp_keep works on X16
 test_that("X16", {
   rank_r <- qr(X16)$rank
   keep <- eigen_qrp_keep(X16, sel)
-  rank_eigen <- length(sel) + length(keep)
+  rank_eigen <- length(keep)
+
+  expect_true(all(sel %in% keep))
   expect_equal(rank_r, rank_eigen)
 })
 

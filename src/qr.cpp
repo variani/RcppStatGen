@@ -179,21 +179,22 @@ Eigen::ArrayXi eigen_qrp_keep(const Eigen::MatrixXd &X,
 
   // update cols_keep according to cols_reordered &
   // status_keep: columns that are kept by QR 
-  ArrayXb status_keep = ArrayXb::Constant(p, false);
+  ArrayXb status_combined = status_selected;
   for(int i = 0; i < rank; i++) {
     cols_keep[i]= cols_unselected[cols_keep[i]];
     // fill status
-    status_keep[cols_keep[i]] = true;
+    status_combined[cols_keep[i]] = true;
   }
 
   // final list of columns are ordered
+  ArrayXi cols_combined(p1 + rank);
   for(int i = 0, i2 = 0; i < p; i++) {
-    if(status_keep[i]) {
-      cols_keep[i2++] = i;
+    if(status_combined[i]) {
+      cols_combined[i2++] = i;
     }
   }
   // return
-  cols_keep += 1; // indices in R starts with 1 rather than 0
+  cols_combined += 1; // indices in R starts with 1 rather than 0
 
-  return(cols_keep);
+  return(cols_combined);
 }

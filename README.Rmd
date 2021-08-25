@@ -99,5 +99,31 @@ object.size(X) %>% print(units = "auto")
 rm(X)
 ```
 
+## QR decomposition
 
+- Getting Q matrix from `Eigen::HouseholderQR` needs thinning. [Code example](https://forum.kde.org/viewtopic.php?f=74&t=106635).
+  Code `A_ortho = A.householderQr().householderQ();` [link](https://forum.kde.org/viewtopic.php?f=74&t=118568) will return a matrix Q 
+  with the number of columns different from the matrix rank.
+- [QR Decomposition results in eigen library differs from Matlab](https://math.stackexchange.com/questions/1396308/qr-decomposition-results-in-eigen-library-differs-from-matlab):
+
+> Note that the different underlying matrix packages (LAPACK and Eigen) most likely implement a different type of QR algorithm.
+
+Given an example matrix with 16 columns and two columns, 4 and 16, to retained by QR,
+two strategies perform differently.
+
+```{r qr}
+data(X16)
+dim(X16)
+sel
+unsel
+
+# 1. QR with pre-selected columns: re-ordering columns fails
+try(eigen_qri_keep(X16, sel))
+
+# 2. QR with pre-selected columns: projeced seleced columns from X
+eigen_qrp_keep(X16, sel)
+
+# Usual QR 
+qr(X16)$rank
+```
 

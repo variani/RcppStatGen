@@ -82,9 +82,9 @@ fun_bench()
 #> # A tibble: 3 x 6
 #>   expression             min median `itr/sec` mem_alloc `gc/sec`
 #>   <bch:expr>           <dbl>  <dbl>     <dbl>     <dbl>    <dbl>
-#> 1 scale(X)              3.99   3.99      1         10.5     5.29
-#> 2 eigen_scale_naive(X)  1      1         3.95       1       1.16
-#> 3 eigen_scale(X)        1.15   1.18      3.40       1       1
+#> 1 scale(X)              3.78   3.76      1         10.5     5.57
+#> 2 eigen_scale_naive(X)  1      1         3.73       1       1.15
+#> 3 eigen_scale(X)        1.15   1.17      3.23       1       1
 ```
 
 ## Scale matrix in-place
@@ -110,8 +110,8 @@ fun_bench_inplace()
 #> # A tibble: 2 x 6
 #>   expression                  min   median `itr/sec` mem_alloc `gc/sec`
 #>   <bch:expr>             <bch:tm> <bch:tm>     <dbl> <bch:byt>    <dbl>
-#> 1 eigen_scale(X)            227ms    254ms      3.94    76.3MB     3.94
-#> 2 eigen_scale_inplace(X)   63.2ms   63.6ms     15.7     5.02KB     0
+#> 1 eigen_scale(X)          243.4ms  270.1ms      3.70    76.3MB     3.70
+#> 2 eigen_scale_inplace(X)   65.5ms   65.9ms     15.1     5.02KB     0
 ```
 
 The extra RAM used by `eigen_scale` function (compared to
@@ -124,4 +124,44 @@ X <- matrix(rnorm(n*p), n, p)
 object.size(X) %>% print(units = "auto")
 #> 76.3 Mb
 rm(X)
+```
+
+## QR decomposition
+
+  - Getting Q matrix from `Eigen::HouseholderQR` needs thinning. [Code
+    example](https://forum.kde.org/viewtopic.php?f=74&t=106635). Code
+    `A_ortho = A.householderQr().householderQ();`
+    [link](https://forum.kde.org/viewtopic.php?f=74&t=118568) will
+    return a matrix Q with the number of columns different from the
+    matrix rank.
+  - [QR Decomposition results in eigen library differs from
+    Matlab](https://math.stackexchange.com/questions/1396308/qr-decomposition-results-in-eigen-library-differs-from-matlab):
+
+> Note that the different underlying matrix packages (LAPACK and Eigen)
+> most likely implement a different type of QR algorithm.
+
+Given an example matrix with 16 columns and two columns, 4 and 16, to
+retained by QR, two strategies perform differently.
+
+``` r
+data(X16)
+dim(X16)
+#> [1] 1000   16
+sel
+#> [1]  4 16
+unsel
+#>  [1]  1  2  3  5  6  7  8  9 10 11 12 13 14 15
+
+# 1. QR with pre-selected columns: re-ordering columns fails
+try(eigen_qri_keep(X16, sel))
+#> Error in eigen_qri_keep(X16, sel) : 
+#>   some selected columns were not kept by QR
+
+# 2. QR with pre-selected columns: projeced seleced columns from X
+eigen_qrp_keep(X16, sel)
+#> [1]  3  4  6  7 16
+
+# Usual QR 
+qr(X16)$rank
+#> [1] 5
 ```

@@ -3,6 +3,7 @@
 export(eigen_print_sum)
 export(eigen_qr_keep)
 export(eigen_qri_keep)
+export(eigen_qrp_keep)
 export(eigen_scale)
 export(eigen_scale_inplace)
 export(eigen_scale_naive)
