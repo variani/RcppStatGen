@@ -27,6 +27,21 @@ eigen_scale_template <- function(X, verbose = 0L) {
 }
 
 #' @export
+eigen_inverse_chol <- function(X) {
+    .Call(`_RcppStatGen_eigen_inverse_chol`, X)
+}
+
+#' @export
+eigen_inverse_evd <- function(X, tol = 1e-6) {
+    .Call(`_RcppStatGen_eigen_inverse_evd`, X, tol)
+}
+
+#' @export
+eigen_inverse_pseudo <- function(X) {
+    .Call(`_RcppStatGen_eigen_inverse_pseudo`, X)
+}
+
+#' @export
 eigen_qr_keep <- function(X, tol = 1e-7, verbose = 0L) {
     .Call(`_RcppStatGen_eigen_qr_keep`, X, tol, verbose)
 }

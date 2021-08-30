@@ -65,6 +65,40 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// eigen_inverse_chol
+Eigen::MatrixXd eigen_inverse_chol(const Eigen::MatrixXd& X);
+RcppExport SEXP _RcppStatGen_eigen_inverse_chol(SEXP XSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const Eigen::MatrixXd& >::type X(XSEXP);
+    rcpp_result_gen = Rcpp::wrap(eigen_inverse_chol(X));
+    return rcpp_result_gen;
+END_RCPP
+}
+// eigen_inverse_evd
+Eigen::MatrixXd eigen_inverse_evd(const Eigen::MatrixXd& X, double tol);
+RcppExport SEXP _RcppStatGen_eigen_inverse_evd(SEXP XSEXP, SEXP tolSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const Eigen::MatrixXd& >::type X(XSEXP);
+    Rcpp::traits::input_parameter< double >::type tol(tolSEXP);
+    rcpp_result_gen = Rcpp::wrap(eigen_inverse_evd(X, tol));
+    return rcpp_result_gen;
+END_RCPP
+}
+// eigen_inverse_pseudo
+Eigen::MatrixXd eigen_inverse_pseudo(const Eigen::MatrixXd& X);
+RcppExport SEXP _RcppStatGen_eigen_inverse_pseudo(SEXP XSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const Eigen::MatrixXd& >::type X(XSEXP);
+    rcpp_result_gen = Rcpp::wrap(eigen_inverse_pseudo(X));
+    return rcpp_result_gen;
+END_RCPP
+}
 // eigen_qr_keep
 Eigen::ArrayXi eigen_qr_keep(const Eigen::MatrixXd& X, double tol, int verbose);
 RcppExport SEXP _RcppStatGen_eigen_qr_keep(SEXP XSEXP, SEXP tolSEXP, SEXP verboseSEXP) {
@@ -123,6 +157,9 @@ static const R_CallMethodDef CallEntries[] = {
     {"_RcppStatGen_eigen_scale_inplace", (DL_FUNC) &_RcppStatGen_eigen_scale_inplace, 1},
     {"_RcppStatGen_eigen_scale_naive", (DL_FUNC) &_RcppStatGen_eigen_scale_naive, 1},
     {"_RcppStatGen_eigen_scale_template", (DL_FUNC) &_RcppStatGen_eigen_scale_template, 2},
+    {"_RcppStatGen_eigen_inverse_chol", (DL_FUNC) &_RcppStatGen_eigen_inverse_chol, 1},
+    {"_RcppStatGen_eigen_inverse_evd", (DL_FUNC) &_RcppStatGen_eigen_inverse_evd, 2},
+    {"_RcppStatGen_eigen_inverse_pseudo", (DL_FUNC) &_RcppStatGen_eigen_inverse_pseudo, 1},
     {"_RcppStatGen_eigen_qr_keep", (DL_FUNC) &_RcppStatGen_eigen_qr_keep, 3},
     {"_RcppStatGen_eigen_qri_keep", (DL_FUNC) &_RcppStatGen_eigen_qri_keep, 4},
     {"_RcppStatGen_eigen_qrp_keep", (DL_FUNC) &_RcppStatGen_eigen_qrp_keep, 4},
