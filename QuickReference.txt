@@ -1,3 +1,5 @@
+// References:
+// - https://www.cc.gatech.edu/classes/AY2015/cs4496_spring/Eigen.html
 
 //--------------------
 // initialize
@@ -6,6 +8,9 @@
 // initialize boolean vector
 typedef Array<bool,Dynamic,1> ArrayX1b;
 ArrayX1b x = ArrayXb::Constant(10, false);               // rep(FALSE, 10)
+
+// initialize vector of doubles (zero value)
+VectorXd x = VectorXd::Constant(p, 0.0);
 
 //--------------------
 // Initialize Matrices 
