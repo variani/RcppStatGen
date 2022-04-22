@@ -5,6 +5,8 @@
 // initialize
 //--------------------
 
+// - Advanced Initialization: https://eigen.tuxfamily.org/dox/group__TutorialAdvancedInitialization.html
+
 // initialize boolean vector
 typedef Array<bool,Dynamic,1> ArrayX1b;
 ArrayX1b x = ArrayXb::Constant(10, false);               // rep(FALSE, 10)
