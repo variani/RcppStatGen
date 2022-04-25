@@ -1,6 +1,7 @@
 // References:
 // - https://www.cc.gatech.edu/classes/AY2015/cs4496_spring/Eigen.html
 // - Matlab vs Eigen: https://gist.github.com/gocarlos/c91237b02c120c6319612e42fa196d77
+// Catalog of coefficient-wise math functions: https://eigen.tuxfamily.org/dox/group__CoeffwiseMathFunctions.html
 
 //--------------------
 // initialize
