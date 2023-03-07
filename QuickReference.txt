@@ -30,3 +30,9 @@ D.diagonal().array() = 2.5;
 
 // self cross-product = crossprod(X)
 MatrixXd XtX(MatrixXd(p, p).setZero().selfadjointView<Lower>().rankUpdate(X.adjoint()));
+
+//---------------------------------
+// Column/Element-wise Products 
+//---------------------------------
+
+MatrixXd B = A.array().colwise() * v.array();
