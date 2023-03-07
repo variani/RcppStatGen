@@ -36,3 +36,43 @@ MatrixXd XtX(MatrixXd(p, p).setZero().selfadjointView<Lower>().rankUpdate(X.adjo
 //---------------------------------
 
 MatrixXd B = A.array().colwise() * v.array();
+
+// References:
+// - https://www.cc.gatech.edu/classes/AY2015/cs4496_spring/Eigen.html
+// - Matlab vs Eigen: https://gist.github.com/gocarlos/c91237b02c120c6319612e42fa196d77
+// Catalog of coefficient-wise math functions: https://eigen.tuxfamily.org/dox/group__CoeffwiseMathFunctions.html
+
+//--------------------
+// initialize
+//--------------------
+
+// - Advanced Initialization: https://eigen.tuxfamily.org/dox/group__TutorialAdvancedInitialization.html
+
+// initialize boolean vector
+typedef Array<bool,Dynamic,1> ArrayX1b;
+ArrayX1b x = ArrayXb::Constant(10, false);               // rep(FALSE, 10)
+
+// initialize vector of doubles (zero value)
+VectorXd x = VectorXd::Constant(p, 0.0);
+
+//--------------------
+// Initialize Matrices 
+//--------------------
+
+// Diagonal = diag(2.5, 5)
+MatrixXd D = MatrixXd::Constant(5, 5, 0.0);
+D.diagonal().array() = 2.5;
+
+//--------------------
+// Products 
+//--------------------
+
+// self cross-product = crossprod(X)
+MatrixXd XtX(MatrixXd(p, p).setZero().selfadjointView<Lower>().rankUpdate(X.adjoint()));
+
+//---------------------------------
+// Quantities of a vector
+//---------------------------------
+
+double norm = x.norm(); // sqrt(x1^2 + x2^2 + ...) 
+
