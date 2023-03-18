@@ -70,6 +70,9 @@ D.diagonal().array() = 2.5;
 // self cross-product = crossprod(X)
 MatrixXd XtX(MatrixXd(p, p).setZero().selfadjointView<Lower>().rankUpdate(X.adjoint()));
 
+// cross-product
+MatrixXd C = A.transpose() * C;
+
 //---------------------------------
 // Quantities of a vector
 //---------------------------------
